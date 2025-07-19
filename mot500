@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Mot500</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 20px;
+    }
+
+    .board {
+      margin: 20px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .row {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+
+    input.cell {
+      width: 40px;
+      height: 40px;
+      text-transform: uppercase;
+      text-align: center;
+      font-size: 1.2em;
+      border: 1px solid #666;
+    }
+
+    input.cell:disabled {
+      background-color: #eee;
+    }
+
+    .feedback-box {
+      display: flex;
+      gap: 5px;
+      margin-left: 10px;
+    }
+
+    .fb-cell {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1em;
+      font-weight: bold;
+      color: white;
+      border-radius: 4px;
+    }
+
+    .green {
+      background: #6aaa64;
+    }
+
+    .yellow {
+      background: #c9b458;
+    }
+
+    .red {
+      background: #d45050;
+    }
+
+    #result {
+      margin-top: 15px;
+      font-size: 1.2em;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Word500 Clone</h1>
+  <div class="board" id="board"></div>
+  <div id="result"></div>
+
+  <script>
+    const WORD_LIST = [
+      "APPLE", "BRAIN", "CHAIR", "CRANE", "DREAM", "EARTH", "FIGHT", "GHOST", "GRAPE", "HONEY",
+      "IGLOO", "JELLY", "KNIFE", "LEMON", "MAGIC", "NURSE", "OCEAN", "PILOT", "QUEEN", "RIVER",
+      "SUGAR", "TIGER", "ULTRA", "VIRUS", "WATER", "XENON", "YOUTH", "ZEBRA", "BLAST", "BRICK",
+      "CLOWN", "DANCE", "EAGLE", "FLOOD", "GLOVE", "HEART", "INDEX", "JOKER", "KOALA", "LOVER",
+      "MOUSE", "NIGHT", "OPERA", "PLANT", "QUICK", "RAISE", "SWEET", "TRACK", "UNITY", "VALUE",
+      "WITCH", "YACHT", "ZONED", "ALARM", "BRUSH", "CABLE", "DODGE", "EPOCH", "FRUIT", "GLASS",
+      "HUMAN", "INBOX", "JUMPY", "KOOKY", "LEARN", "MIGHT", "NOBLE", "OVERT", "PRIDE", "QUILT",
+      "RANGE", "SHARE", "TRICK", "UNCLE", "VIVID", "WORLD", "WOUND", "YUMMY", "ZAPPY", "ADORE",
+      "BOAST", "CREEP", "DEPTH", "EXACT", "FAITH", "GRIND", "HASTE", "INNER", "JAZZY", "KNEEL",
+      "LUNCH", "MINOR", "OASIS", "PEACH", "QUIET", "REACT", "SHEEP", "TRUST"
+    ];
+
+    const WORD = WORD_LIST[Math.floor(Math.random() * WORD_LIST.length)];
+    const MAX_GUESSES = 8;
+    let attempt = 0;
+
+    const board = document.getElementById("board");
+    const resultDiv = document.getElementById("result");
+
+    for (let i = 0; i < MAX_GUESSES; i++) {
+      const row = document.createElement("div");
+      row.className = "row";
+
+      for (let j = 0; j < 5; j++) {
+        const input = document.createElement("input");
+        input.className = "cell";
+        input.maxLength = 1;
+        input.disabled = i !== 0;
+        input.dataset.index = j;
+        input.addEventListener("input", (e) => {
+          e.target.value = e.target.value.toUpperCase();
+          if (e.target.value && e.target.nextElementSibling?.tagName === "INPUT") {
+            e.target.nextElementSibling.focus();
+          }
+        });
+        row.appendChild(input);
+      }
+
+      const fbBox = document.createElement("div");
+      fbBox.className = "feedback-box";
+      fbBox.innerHTML = `
+        <div class="fb-cell green">0</div>
+        <div class="fb-cell yellow">0</div>
+        <div class="fb-cell red">0</div>
+      `;
+      row.appendChild(fbBox);
+
+      board.appendChild(row);
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        handleGuess();
+      }
+    });
+
+    function getGuessFromRow(row) {
+      return Array.from(row.querySelectorAll(".cell"))
+        .map(input => input.value.toUpperCase())
+        .join("");
+    }
+
+    function setRowDisabled(row, disabled) {
+      Array.from(row.querySelectorAll(".cell")).forEach(input => input.disabled = disabled);
+    }
+
+    function handleGuess() {
+      if (attempt >= MAX_GUESSES) return;
+
+      const row = board.children[attempt];
+      const guess = getGuessFromRow(row);
+
+      if (!/^[A-Z]{5}$/.test(guess)) {
+        alert("Enter exactly 5 valid letters (A–Z).");
+        return;
+      }
+
+      setRowDisabled(row, true);
+
+      let green = 0, yellow = 0;
+      const letterCount = {};
+      for (const ch of WORD) letterCount[ch] = (letterCount[ch] || 0) + 1;
+
+      for (let i = 0; i < 5; i++) {
+        if (guess[i] === WORD[i]) {
+          green++;
+          letterCount[guess[i]]--;
+        }
+      }
+
+      for (let i = 0; i < 5; i++) {
+        if (guess[i] !== WORD[i] && letterCount[guess[i]] > 0) {
+          yellow++;
+          letterCount[guess[i]]--;
+        }
+      }
+
+      const red = 5 - green - yellow;
+
+      const feedback = row.querySelectorAll(".fb-cell");
+      feedback[0].textContent = `${green}`;
+      feedback[1].textContent = `${yellow}`;
+      feedback[2].textContent = `${red}`;
+
+      attempt++;
+
+      if (green === 5) {
+        resultDiv.textContent = `Correct! You got it in ${attempt} guess${attempt > 1 ? "es" : ""}.`;
+      } else if (attempt === MAX_GUESSES) {
+        resultDiv.textContent = `Game over! The word was ${WORD}.`;
+      } else {
+        const nextRow = board.children[attempt];
+        setRowDisabled(nextRow, false);
+        nextRow.querySelector(".cell").focus();
+      }
+    }
+  </script>
+</body>
+
+</html>
