@@ -83,16 +83,7 @@
 
   <script>
     const WORD_LIST = [
-      "APPLE", "BRAIN", "CHAIR", "CRANE", "DREAM", "EARTH", "FIGHT", "GHOST", "GRAPE", "HONEY",
-      "IGLOO", "JELLY", "KNIFE", "LEMON", "MAGIC", "NURSE", "OCEAN", "PILOT", "QUEEN", "RIVER",
-      "SUGAR", "TIGER", "ULTRA", "VIRUS", "WATER", "XENON", "YOUTH", "ZEBRA", "BLAST", "BRICK",
-      "CLOWN", "DANCE", "EAGLE", "FLOOD", "GLOVE", "HEART", "INDEX", "JOKER", "KOALA", "LOVER",
-      "MOUSE", "NIGHT", "OPERA", "PLANT", "QUICK", "RAISE", "SWEET", "TRACK", "UNITY", "VALUE",
-      "WITCH", "YACHT", "ZONED", "ALARM", "BRUSH", "CABLE", "DODGE", "EPOCH", "FRUIT", "GLASS",
-      "HUMAN", "INBOX", "JUMPY", "KOOKY", "LEARN", "MIGHT", "NOBLE", "OVERT", "PRIDE", "QUILT",
-      "RANGE", "SHARE", "TRICK", "UNCLE", "VIVID", "WORLD", "WOUND", "YUMMY", "ZAPPY", "ADORE",
-      "BOAST", "CREEP", "DEPTH", "EXACT", "FAITH", "GRIND", "HASTE", "INNER", "JAZZY", "KNEEL",
-      "LUNCH", "MINOR", "OASIS", "PEACH", "QUIET", "REACT", "SHEEP", "TRUST"
+      "enter"
     ];
 
     const WORD = WORD_LIST[Math.floor(Math.random() * WORD_LIST.length)];
