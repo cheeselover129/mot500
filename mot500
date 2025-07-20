@@ -81,10 +81,11 @@
   <div class="board" id="board"></div>
   <div id="result"></div>
 
-  <script>
+<script>
     const WORD_LIST = [
-      "enter"
+“AROME”, “AIDER,”, “AIDES”, “AIDEZ,” “AIMER”, “AIMES”, “AIMEZ”, “AINSI”, “ALLEE”, “ALLER”, “ALLES”, “ALLEZ”, “AMOUR”, “ARRET”, “ASCOT”, “AVION”, “AVOIR”, “BALAI”, “BARRE”, “BELLE”, “BONNE”, “CALLE”, “CARTE”, “CASSE”, “CASTE”, “CIRRE”, “COEUR”, “COLLE”, “COMME”, “COURS”, “COURT”, “COUTE”, “COUTS”, “CREPE”, “GLACE”, “GOUTS”, “JEUNE”, “JOUER”, “JOUES”, “JOUEZ”, “LEURS”, “MAINS”, “MIENS”, “NOTRE,” “PIQUE”, “PLACE”, “POIRE”, “POMME”, “PORRE”, “QUAND”, “QUELS”, “ROUGE”, “SIENS”, “TIENS”, “VOTRE”, 
     ];
+
 
     const WORD = WORD_LIST[Math.floor(Math.random() * WORD_LIST.length)];
     const MAX_GUESSES = 8;
