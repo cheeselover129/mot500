@@ -81,15 +81,19 @@
   <div class="board" id="board"></div>
   <div id="result"></div>
 
-<script>
+  <script>
     const WORD_LIST = [
-“AIDER,”, “AIDES”, “AIDEZ,” “AIMER”, “AIMES”, “AIMEZ”, “AINSI”, “ALLEE”, “ALLER”, “ALLES”, “ALLEZ”, “ALOES”, “AMOUR”, “ANNEE”, “APRES”, “AVRIL”, “AROME”, “ARRET”, “ASCOT”, “AUNER”, “AVION”, “AVOIR”, “BALAI”, “BALLE”, “BARRE”, “BASSE”, “BASTE”, “BELLE”, “BONNE”, “CALLE”, “CARTE”, “CASSE”, “CASTE”, “CIRRE”, “COEUR”, “COLLE”, “COMME”, “COURS”, “COURT”, “COUTE”, “COUTS”, “CREPE”, “ENTRE”, “ETAIT”, “ETRES”, “FLEUR”, “FORET”, “FORME”, “FORTE”, “FRERE”, “GLACE”, “GOUTS”, “HEURE”, “HUILE”, “JETER”, “JEUNE”, “JOUER”, “JOUES”, “JOUEZ”, “JUTER”, “LEURS”, “LISTE”, “MAINS”, “MIENS”, “MONDE”, “NOTRE,” “NUAGE”, “ODEUR”, “ONCLE”, “OUTIL”, “OUVRE”, “PASSE”, “PATTE”, “PIEDS”, “PIQUE”, “PLACE”, “PLAGE”, “POIRE”, “POMME”, “PORRE”, “POSER”, “QUAND”, “QUELS”, “ROUGE”, “SALLE”, “SIENS”, “SOEUR”, “SUBER”, “SUPER”, “TARDE”, “TIENS”, “VITES”, “VOTRE”, 
+      "AIDER", "AIDES", "AIDEZ", "AIMER", "AIMES", "AIMEZ", "AINSI", "ALLEE", "ALLER", "ALLES", "ALLEZ", "ALOES",
+      "AMOUR", "ANNEE", "APRES", "AVRIL", "AROME", "ARRET", "ASCOT", "AUNER", "AVION", "AVOIR", "BALAI", "BALLE",
+      "BARRE", "BASSE", "BASTE", "BELLE", "BONNE", "CALLE", "CARTE", "CASSE", "CASTE", "CIRRE", "COEUR", "COLLE",
+      "COMME", "COURS", "COURT", "COUTE", "COUTS", "CREPE", "ENTRE", "ETAIT", "ETRES", "FLEUR", "FORET", "FORME",
+      "FORTE", "FRERE", "GLACE", "GOUTS", "HEURE", "HUILE", "JETER", "JEUNE", "JOUER", "JOUES", "JOUEZ", "JUTER",
+      "LEURS", "LISTE", "MAINS", "MIENS", "MONDE", "NOTRE", "NUAGE", "ODEUR", "ONCLE", "OUTIL", "OUVRE", "PASSE",
+      "PATTE", "PIEDS", "PIQUE", "PLACE", "PLAGE", "POIRE", "POMME", "PORRE", "POSER", "QUAND", "QUELS", "ROUGE",
+      "SALLE", "SIENS", "SOEUR", "SUBER", "SUPER", "TARDE", "TIENS", "VITES", "VOTRE"
     ];
 
-
-
-
-    const WORD = WORD_LIST[Math.floor(Math.random() * WORD_LIST.length)];
+    const WORD = WORD_LIST[Math.floor(Math.random() * WORD_LIST.length)].trim().toUpperCase();
     const MAX_GUESSES = 8;
     let attempt = 0;
 
@@ -150,7 +154,7 @@
       const guess = getGuessFromRow(row);
 
       if (!/^[A-Z]{5}$/.test(guess)) {
-        alert("Enter exactly 5 valid letters (A–Z).");
+        alert("Entrez exactement 5 lettres valides (A–Z).");
         return;
       }
 
@@ -184,9 +188,9 @@
       attempt++;
 
       if (green === 5) {
-        resultDiv.textContent = `Correct! You got it in ${attempt} guess${attempt > 1 ? "es" : ""}.`;
+        resultDiv.textContent = `Bravo ! Vous avez trouvé le mot en ${attempt} essai${attempt > 1 ? "s" : ""}.`;
       } else if (attempt === MAX_GUESSES) {
-        resultDiv.textContent = `Game over! The word was ${WORD}.`;
+        resultDiv.textContent = `Perdu ! Le mot était « ${WORD} ».`;
       } else {
         const nextRow = board.children[attempt];
         setRowDisabled(nextRow, false);
